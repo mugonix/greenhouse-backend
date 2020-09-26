@@ -45,6 +45,7 @@ window.Echo = new Echo({
     key: process.env.MIX_PUSHER_APP_KEY,
     wsHost: '104.198.163.92',
     wsPort: 6001,
+    authEndpoint: '/web-app/public/broadcasting/auth'
 });
 
 
