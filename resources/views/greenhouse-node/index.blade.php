@@ -11,6 +11,7 @@
 @endsection
 
 @section('page-content')
-    <greenhouse-dashboard greenhouse-code="{{$greenhouse->code}}"></greenhouse-dashboard>
+    <greenhouse-dashboard past-metric-url="{{route("greenhouse.get-past-metrics")}}"
+                          greenhouse-code="{{$greenhouse->code}}"></greenhouse-dashboard>
 @endsection
 

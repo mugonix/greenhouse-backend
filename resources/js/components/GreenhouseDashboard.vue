@@ -45,6 +45,7 @@
     export default {
         props: {
             greenhouseCode: String,
+            pastMetricUrl: String
         },
         data() {
             return {
@@ -126,7 +127,7 @@
             loadValues() {
                 let greenhouse_code = this.greenhouseCode;
                 let _this = this;
-                axios.get('/greenhouse/get-past-metrics', {
+                axios.get(this.pastMetricUrl, {
                     params: {
                         greenhouse_code: greenhouse_code
                     }

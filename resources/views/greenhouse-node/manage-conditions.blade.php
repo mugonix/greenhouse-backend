@@ -20,8 +20,6 @@
             maxboostedstep: 10,
             postfix: 'ºC'
         });
-
-
     </script>
 
 @endpush
@@ -34,6 +32,7 @@
 @endsection
 
 @section('page-content')
-    <greenhouse-conditions greenhouse-code="{{$greenhouse->code}}"></greenhouse-conditions>
+    <greenhouse-conditions greenhouse-code="{{$greenhouse->code}}" get-env-limits-url="{{route("greenhouse.get-environmental-limits")}}"
+                           update-env-limits-url="{{route("greenhouse.update-environmental-limits")}}"></greenhouse-conditions>
 @endsection
 

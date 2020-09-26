@@ -132,7 +132,9 @@
     export default {
         name: "GreenhouseConditions",
         props: {
-            greenhouseCode: String
+            greenhouseCode: String,
+            getEnvLimitsUrl: String,
+            updateEnvLimitsUrl: String,
         },
         data: function () {
             return {
@@ -160,7 +162,7 @@
             getEnvironmentalLimits() {
                 let greenhouse_code = this.greenhouseCode;
                 let _this = this;
-                axios.get('/greenhouse/get-greenhouse-environmental-limits', {
+                axios.get(this.getEnvLimitsUrl, {
                     params: {
                         greenhouse_code: greenhouse_code
                     }
@@ -174,7 +176,7 @@
             updateEnvironmentalLimit(sensor) {
                 let greenhouse_code = this.greenhouseCode;
                 let _this = this;
-                axios.post('/greenhouse/update-greenhouse-environmental-limits', {
+                axios.post(this.updateEnvLimitsUrl, {
                     greenhouse_code: greenhouse_code,
                     sensor: sensor,
                     upper_limit: _this.environmentalLimits[sensor].upper_limit,
