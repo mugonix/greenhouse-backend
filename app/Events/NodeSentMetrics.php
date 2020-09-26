@@ -30,7 +30,7 @@ class NodeSentMetrics implements ShouldBroadcast
      * @param GreenhouseMetric $greenhouse_metrics
      * @param GreenhouseActuator $greenhouse_actuator
      */
-    public function __construct(GreenhouseMetric $greenhouse_metrics, GreenhouseActuator $greenhouse_actuator)
+    public function __construct(GreenhouseMetric $greenhouse_metrics, $greenhouse_actuator)
     {
         $this->greenhouse_metrics = $greenhouse_metrics;
         $this->post_time = $greenhouse_metrics->created_at->format("H:i");

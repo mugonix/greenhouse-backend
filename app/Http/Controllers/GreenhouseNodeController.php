@@ -119,8 +119,6 @@ class GreenhouseNodeController extends Controller
         if ($updated)
             return response()->json(["status" => "ok"]);
         return response()->json(["status" => "err", "message" => "Failed to update state"]);
-
-
     }
 
     public function clearConditions(Greenhouse $greenhouse)
@@ -135,8 +133,6 @@ class GreenhouseNodeController extends Controller
 //        if ($updated && $updated2)
         return response()->json(["status" => "ok"]);
 //        return response()->json(["status" => "err", "message" => "Failed to update state"]);
-
-
     }
 
     private function weatherApi()
