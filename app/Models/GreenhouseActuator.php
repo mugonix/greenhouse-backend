@@ -16,4 +16,6 @@ class GreenhouseActuator extends BaseGreenhouseActuator
 	const DEFAULT_LEVEL = 0;
 	const CONDITION_LEVEL = 1;
 	const OVERRIDE_LEVEL = 2;
+
+
 }

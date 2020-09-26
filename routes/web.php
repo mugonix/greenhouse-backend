@@ -22,6 +22,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/settings', 'HomeController@settings')->name('user.settings');
+Route::post('/settings', 'HomeController@storeSettings');
 
 Route::prefix("greenhouse")->group(function () {
     Route::get('/get-past-metrics', 'GreenhouseNodeController@getStats')->name("greenhouse.get-past-metrics");
@@ -29,6 +30,10 @@ Route::prefix("greenhouse")->group(function () {
     Route::post('/update-greenhouse-environmental-limits', 'GreenhouseEnvironmentController@updateEnvironmentalCondition')->name("greenhouse.update-environmental-limits");
     Route::get('/{greenhouse:code}', 'GreenhouseNodeController@show')
         ->name('greenhouse-node.show')->middleware('can:control-greenhouse,greenhouse');
+    Route::post('/{greenhouse:code}/override-actuator', 'GreenhouseNodeController@overrideActuatorState')
+        ->name('greenhouse-node.override-actuator')->middleware('can:control-greenhouse,greenhouse');
+    Route::get('/{greenhouse:code}/clear-conditions', 'GreenhouseNodeController@clearConditions')
+        ->name('greenhouse-node.clear-conditions')->middleware('can:control-greenhouse,greenhouse');
     Route::get('/{greenhouse:code}/manage-conditions', 'GreenhouseNodeController@manageConditions')
         ->name('greenhouse-node.manage-conditions')->middleware('can:control-greenhouse,greenhouse');
 

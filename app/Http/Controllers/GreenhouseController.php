@@ -43,8 +43,8 @@ class GreenhouseController extends Controller
 
         $greenhouse->greenhouse_actuators()->createMany(
             [
-                ["actuators" => "exhaust_fan", "state" => "OFF", "control_level" => GreenhouseActuator::DEFAULT_LEVEL],
-                ["actuators" => "heater", "state" => "OFF", "control_level" => GreenhouseActuator::DEFAULT_LEVEL],
+                ["actuator" => "exhaust_fan", "state" => "OFF", "control_level" => GreenhouseActuator::DEFAULT_LEVEL],
+                ["actuator" => "heater", "state" => "OFF", "control_level" => GreenhouseActuator::DEFAULT_LEVEL],
             ]
         );
 

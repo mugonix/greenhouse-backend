@@ -71,7 +71,7 @@ class UserManagementController extends Controller
 
         $user->update($data);
 
-        return redirect()->route("user-management.index")->with("status");
+        return redirect()->route("user-management.index")->withStatus("Account details have been updated!");
     }
 
     public function approveAccount()

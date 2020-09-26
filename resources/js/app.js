@@ -27,6 +27,8 @@ Vue.component('radial-bar-card', require('./components/Chart/RadialBarCard.vue')
 Vue.component('bar-chart-widget-card', require('./components/Chart/BarChartWidgetCard.vue').default);
 Vue.component('greenhouse-dashboard', require('./components/GreenhouseDashboard.vue').default);
 Vue.component('greenhouse-conditions', require('./components/GreenhouseConditions.vue').default);
+Vue.component('greenhouse-override-container', require('./components/GreenhouseOverrideContainer.vue').default);
+Vue.component('greenhouse-clear-conditions', require('./components/GreenhouseClearConditions.vue').default);
 Vue.component('TouchSpinner', require('./components/Chart/VueTouchSpinner.vue').default);
 
 import VueApexCharts from 'vue-apexcharts';

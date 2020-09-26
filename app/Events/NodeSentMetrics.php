@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\GreenhouseActuator;
 use App\Models\GreenhouseMetric;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -18,16 +19,22 @@ class NodeSentMetrics implements ShouldBroadcast
 
     public $greenhouse_metrics;
     public $post_time;
+    /**
+     * @var GreenhouseActuator
+     */
+    public $greenhouse_actuator;
 
     /**
      * Create a new event instance.
      *
-     * @param $greenhouse_metrics
+     * @param GreenhouseMetric $greenhouse_metrics
+     * @param GreenhouseActuator $greenhouse_actuator
      */
-    public function __construct(GreenhouseMetric $greenhouse_metrics)
+    public function __construct(GreenhouseMetric $greenhouse_metrics, GreenhouseActuator $greenhouse_actuator)
     {
         $this->greenhouse_metrics = $greenhouse_metrics;
         $this->post_time = $greenhouse_metrics->created_at->format("H:i");
+        $this->greenhouse_actuator = $greenhouse_actuator;
     }
 
     /**

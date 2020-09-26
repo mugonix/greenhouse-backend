@@ -43,7 +43,11 @@
                             </a>
                         </li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
+                        <li class="dropdown-item">
+                            <a href="{{route("user.settings")}}">
+                            <i class="icon-settings mr-2"></i> Setting
+                            </a>
+                        </li>
                         <li class="dropdown-divider"></li>
                         <li class="dropdown-item">
                             <a href="{{route("logout")}}"><i class="icon-power mr-2"></i> Logout</a>
@@ -57,20 +61,20 @@
 
     <div class="clearfix"></div>
 
-    <div class="content-wrapper">
+    <div class="content-wrapper" id="app">
         <div class="container-fluid">
             <!-- Breadcrumb-->
             <div class="row pt-2 pb-2">
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                     <h4 class="page-title">@yield("pageTitleBody")</h4>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-6">
                     @yield("page-button-area")
                 </div>
             </div>
             <!-- End Breadcrumb-->
 
-            <div class="row" id="app">
+            <div class="row">
                 <div class="col-12">
                     @yield('page-content')
                 </div>

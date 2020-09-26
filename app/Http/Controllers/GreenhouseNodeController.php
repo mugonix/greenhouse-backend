@@ -73,8 +73,8 @@ class GreenhouseNodeController extends Controller
 
         $data = \request()->only("temperature", "humidity", "air_quality", "soil_moisture", "send_interval");
 
-//        $weather_api = $this->weatherApi();
-        $weather_api = ["main" => ["temp" => 45, "humidity" => 12]]; //test purposes only
+        $weather_api = $this->weatherApi();
+//        $weather_api = ["main" => ["temp" => 45, "humidity" => 12]]; //test purposes only
         $api_main = $weather_api["main"];
 
         $data["water_volume"] = \request("water_used");
@@ -88,12 +88,54 @@ class GreenhouseNodeController extends Controller
 
         (new EnvironmentConditionManager)->assessment($greenhouse_metrics);
 
-        broadcast(new NodeSentMetrics($greenhouse_metrics));
+        $actuators = GreenhouseActuator::whereGreenhouseId($data["greenhouse_id"])
+            ->get(['actuator', 'state', 'control_level']);
 
-        $actuator = GreenhouseActuator::whereGreenhouseId($data["greenhouse_id"])->pluck("state", "actuator");
+        broadcast(new NodeSentMetrics($greenhouse_metrics, $actuators));
 
+        $actuator = $actuators->pluck("state", "actuator");
 
         return \response()->json(["success" => true, "actuator" => $actuator]);
+
+    }
+
+    public function overrideActuatorState(Greenhouse $greenhouse)
+    {
+        $greenhouse_id = $greenhouse->id;
+
+        $actuator = \request("actuator", "");
+        $suggested_state = strtoupper(\request("state", ""));
+
+        if (in_array($suggested_state, ["OFF", "ON"])) {
+            $updated = GreenhouseActuator::where("greenhouse_id", $greenhouse_id)
+                ->where("actuator", $actuator)
+                ->update(["state" => $suggested_state, "control_level" => GreenhouseActuator::OVERRIDE_LEVEL]);
+        } else {
+            $updated = GreenhouseActuator::where("greenhouse_id", $greenhouse_id)
+                ->where("actuator", $actuator)
+                ->update(["state" => "OFF", "control_level" => GreenhouseActuator::CONDITION_LEVEL]);
+        }
+
+        if ($updated)
+            return response()->json(["status" => "ok"]);
+        return response()->json(["status" => "err", "message" => "Failed to update state"]);
+
+
+    }
+
+    public function clearConditions(Greenhouse $greenhouse)
+    {
+        $updated = $greenhouse->greenhouse_environment_limits()->update([
+            'lower_limit' => null, 'upper_limit' => null]);
+
+        $updated2 = $greenhouse->greenhouse_actuators()
+            ->where("control_level", GreenhouseActuator::CONDITION_LEVEL)
+            ->update(["state" => "OFF", "control_level" => GreenhouseActuator::DEFAULT_LEVEL]);
+
+//        if ($updated && $updated2)
+        return response()->json(["status" => "ok"]);
+//        return response()->json(["status" => "err", "message" => "Failed to update state"]);
+
 
     }
 

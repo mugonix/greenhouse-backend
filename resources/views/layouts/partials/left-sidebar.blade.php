@@ -13,7 +13,7 @@
                 <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
             </a>
         </li>
-        @can("manage-greenhouses")
+        @can("manage-users")
             <li>
             <a href="{{route("greenhouses.index")}}" class="waves-effect">
                 <i class="zmdi zmdi-home"></i> <span>Manage Greenhouses</span>

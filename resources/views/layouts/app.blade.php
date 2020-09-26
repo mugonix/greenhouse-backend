@@ -86,6 +86,8 @@
 <!-- Custom scripts -->
 <script src="{{asset("assets/js/app-script.js")}}"></script>
 
+<script src="{{asset("assets/plugins/alerts-boxes/js/sweetalert.min.js")}}"></script>
+
 <script src="{{asset("js/app.js")}}"></script>
 
 @stack("pageJavascript")

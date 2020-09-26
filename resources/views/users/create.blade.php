@@ -13,12 +13,29 @@
 
                     <div class="card-body">
                         @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                                {{ session('status') }}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <div class="alert-icon contrast-alert">
+                                    <i class="fa fa-check"></i>
+                                </div>
+                                <div class="alert-message">
+                                    <span><strong>Success!</strong> {{ session('status') }}</span>
+                                </div>
                             </div>
+                        @endif
+
+                        @if(count($errors->all()) > 0)
+                            @foreach($errors->all() as $error)
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <div class="alert-icon contrast-alert">
+                                        <i class="fa fa-times"></i>
+                                    </div>
+                                    <div class="alert-message">
+                                        <span><strong>Error!</strong> {{ $error }}</span>
+                                    </div>
+                                </div>
+                            @endforeach
                         @endif
 
                         <div class="row">

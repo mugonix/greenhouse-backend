@@ -27,41 +27,42 @@ class EnvironmentConditionManager
             switch ($limit->sensor) {
                 case 'temperature':
                     if ($value > $limit->upper_limit) {
-                        $this->updateActuatorState("heater", "OFF", $limit->sensor);
-                        $this->updateActuatorState("exhaust_fan", "ON", $limit->sensor);
+                        $this->updateActuatorState($greenhouseMetric->greenhouse_id, "heater", "OFF", $limit->sensor);
+                        $this->updateActuatorState($greenhouseMetric->greenhouse_id, "exhaust_fan", "ON", $limit->sensor);
                         $isExhaustFanOnElsewhere = true;
                     } elseif ($value < $limit->lower_limit) {
-                        $this->updateActuatorState("heater", "ON", $limit->sensor);
+                        $this->updateActuatorState($greenhouseMetric->greenhouse_id, "heater", "ON", $limit->sensor);
                     } elseif ($value >= $limit->upper_limit) {
                         if (!$isExhaustFanOnElsewhere)
-                            $this->updateActuatorState("exhaust_fan", "OFF", $limit->sensor);
+                            $this->updateActuatorState($greenhouseMetric->greenhouse_id, "exhaust_fan", "OFF", $limit->sensor);
                     }
                     break;
                 case 'humidity':
                     if ($value > $limit->upper_limit) {
-                        $this->updateActuatorState("exhaust_fan", "ON", $limit->sensor);
+                        $this->updateActuatorState($greenhouseMetric->greenhouse_id, "exhaust_fan", "ON", $limit->sensor);
                         $isExhaustFanOnElsewhere = true;
                     } else {
                         if (!$isExhaustFanOnElsewhere)
-                            $this->updateActuatorState("exhaust_fan", "OFF", $limit->sensor);
+                            $this->updateActuatorState($greenhouseMetric->greenhouse_id, "exhaust_fan", "OFF", $limit->sensor);
                     }
                     break;
                 case 'air_quality':
                     if ($value < $limit->lower_limit) {
-                        $this->updateActuatorState("exhaust_fan", "ON", $limit->sensor);
+                        $this->updateActuatorState($greenhouseMetric->greenhouse_id, "exhaust_fan", "ON", $limit->sensor);
                         $isExhaustFanOnElsewhere = true;
                     } else {
                         if (!$isExhaustFanOnElsewhere)
-                            $this->updateActuatorState("exhaust_fan", "OFF", $limit->sensor);
+                            $this->updateActuatorState($greenhouseMetric->greenhouse_id, "exhaust_fan", "OFF", $limit->sensor);
                     }
                     break;
             }
         }
     }
 
-    private function updateActuatorState($actuator, $new_state, $sensor)
+    private function updateActuatorState($greenhouse_id, $actuator, $new_state, $sensor)
     {
-        return GreenhouseActuator::where("control_level", "<", GreenhouseActuator::OVERRIDE_LEVEL)
+        return GreenhouseActuator::where("greenhouse_id", $greenhouse_id)
+            ->where("control_level", "<", GreenhouseActuator::OVERRIDE_LEVEL)
             ->where("actuator", $actuator)
             ->update(["state" => strtoupper($new_state), "control_level" => GreenhouseActuator::CONDITION_LEVEL]);
     }

@@ -33,6 +33,39 @@ class HomeController extends Controller
         return view('home', compact("greenhouses"));
     }
 
+    public function settings()
+    {
+        $user = User::find(auth()->id());
+
+        return view("settings", compact("user"));
+    }
+
+    public function storeSettings()
+    {
+        $this->validate(request(), [
+            'first_names' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', "unique:users,email," . auth()->id() . ",id"],
+            'current_password' => ['nullable', 'string', 'min:8'],
+            'new_password' => ['nullable', 'string', 'min:8', "confirmed"],
+        ]);
+
+        $data = request()->only('first_names', 'surname', "email");
+
+        if (!is_null(request("current_password")) && !is_null(request("new_password"))) {
+            if (!\Auth::attempt(["username" => auth()->user()->username, "password" => \request("current_password")])) {
+                return back()->withErrors("Incorrect password, please try again!");
+            }
+
+            $data["password"] = \Hash::make(request("new_password"));
+        }
+
+        auth()->user()->update($data);
+
+        return back()->withStatus("Your account settings have been updated!");
+
+    }
+
     public function changePassword()
     {
         $this->validate(request(), [

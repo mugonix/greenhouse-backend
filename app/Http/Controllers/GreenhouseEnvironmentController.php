@@ -23,8 +23,8 @@ class GreenhouseEnvironmentController extends Controller
         $validate = \Validator::make(\request()->all(), [
             "greenhouse_code" => "required",
             "sensor" => "required",
-            "upper_limit" => "required|numeric",
-            "lower_limit" => "required|numeric",
+            "upper_limit" => "nullable|numeric",
+            "lower_limit" => "nullable|numeric",
         ]);
 
         if ($validate->fails()) {
