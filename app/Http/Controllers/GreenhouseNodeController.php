@@ -89,7 +89,7 @@ class GreenhouseNodeController extends Controller
         (new EnvironmentConditionManager)->assessment($greenhouse_metrics);
 
         $actuators = GreenhouseActuator::whereGreenhouseId($data["greenhouse_id"])
-            ->get(['actuator', 'state', 'control_level']);
+            ->select('actuator', 'state', 'control_level')->get();
 
         broadcast(new NodeSentMetrics($greenhouse_metrics, $actuators));
 
