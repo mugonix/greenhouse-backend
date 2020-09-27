@@ -34,7 +34,6 @@ class NodeSentMetrics implements ShouldBroadcast
     {
         $this->greenhouse_metrics = $greenhouse_metrics;
         $this->post_time = $greenhouse_metrics->created_at->format("H:i");
-        \Log::info($greenhouse_actuator);
         $this->greenhouse_actuator = $greenhouse_actuator;
     }
 
