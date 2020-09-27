@@ -107,7 +107,7 @@ export default {
                 this.newPostTime = e.post_time;
                 this.newTimeStamp = e.greenhouse_metrics.created_at;
 
-
+                this.actuatorStateList = e.greenhouse_actuator;
             });
 
     },
