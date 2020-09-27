@@ -91,7 +91,7 @@ class GreenhouseNodeController extends Controller
         $actuators = GreenhouseActuator::whereGreenhouseId($data["greenhouse_id"])
             ->select('actuator', 'state', 'control_level')->get();
 
-        broadcast(new NodeSentMetrics($greenhouse_metrics, $actuators));
+        broadcast(new NodeSentMetrics($greenhouse_metrics, $actuators->toArray()));
 
         $actuator = $actuators->pluck("state", "actuator");
 
