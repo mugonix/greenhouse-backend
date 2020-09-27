@@ -28,7 +28,7 @@ class NodeSentMetrics implements ShouldBroadcast
      * Create a new event instance.
      *
      * @param GreenhouseMetric $greenhouse_metrics
-     * @param GreenhouseActuator $greenhouse_actuator
+     * @param  $greenhouse_actuator
      */
     public function __construct(GreenhouseMetric $greenhouse_metrics, $greenhouse_actuator)
     {
