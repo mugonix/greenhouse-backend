@@ -141,9 +141,9 @@ export default {
                 if (this.seriesValues[0].data.length < this.xAxis.length) {
                     this.seriesValues[1].data.push(newVal.series2NewVal);
                     this.seriesValues[0].data.push(newVal.series1NewVal);
-                    if (this.seriesValues[0].data.length >= 15)
+                    if (this.seriesValues[0].data.length >= 21)
                         this.seriesValues[0].data.shift();
-                    if (this.seriesValues[1].data.length >= 15)
+                    if (this.seriesValues[1].data.length >= 21)
                         this.seriesValues[1].data.shift();
                 } else {
                     let currVal1, currVal2;
@@ -168,7 +168,7 @@ export default {
             let xAxisLabelPos1 = this.xAxisLabelPos(label);
             if (xAxisLabelPos1 === -1) {
                 this.xAxis.push(label);
-                if (this.xAxis.length >= 15)
+                if (this.xAxis.length >= 21)
                     this.xAxis.shift();
                 return (this.xAxis.length - 1);
             }
