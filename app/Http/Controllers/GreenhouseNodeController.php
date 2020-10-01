@@ -44,7 +44,7 @@ class GreenhouseNodeController extends Controller
             ->where("greenhouse_id", $greenhouse->id)->get();
 
         $month_utilisation = GreenhouseMetric::selectRaw("IFNULL(ROUND(SUM(`water_volume`)/1000,3),0)  as 'total_water_volume',
-        IFNULL(ROUND(SUM(`energy_unit`)*(COUNT(id)/60/60),2),0)  as 'total_energy_unit'")
+        IFNULL(ROUND(SUM(`energy_unit`)*(COUNT(id)/3600),2),0)  as 'total_energy_unit'")
             ->where("greenhouse_id", $greenhouse->id)
             ->whereRaw("DATE(created_at) >= DATE(DATE_SUB(NOW(), INTERVAL 1 MONTH))")
             ->first();
@@ -99,7 +99,7 @@ class GreenhouseNodeController extends Controller
             ->select('actuator', 'state', 'control_level')->get();
 
         $monthly = GreenhouseMetric::selectRaw("IFNULL(ROUND(SUM(`water_volume`)/1000,3),0)  as 'total_water_volume',
-        IFNULL(ROUND(SUM(`energy_unit`)*(COUNT(id)/60/60),2),0)  as 'total_energy_unit'")
+        IFNULL(ROUND(SUM(`energy_unit`)*(COUNT(id)/3600),2),0)  as 'total_energy_unit'")
             ->where("greenhouse_id", $greenhouse_metrics->greenhouse_id)
             ->whereRaw("DATE(created_at) >= DATE(DATE_SUB(NOW(), INTERVAL 1 MONTH))")
             ->first()->toArray();
