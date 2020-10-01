@@ -84,6 +84,8 @@
                     if (newVal == null)
                         return;
                     this.series[0].data.push(newVal);
+                    if (this.series[0].data.length >= 15)
+                        this.series[0].data.shift();
                     // this.series[0].data.shift(); //if I decide I want a constant number of values here
                 }
             },

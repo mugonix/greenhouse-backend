@@ -43,6 +43,11 @@ class GreenhouseNodeController extends Controller
             ->where("created_at", ">=", $pastHour)->groupBy('post_time', 'post_datetime')->orderBy("post_datetime")
             ->where("greenhouse_id", $greenhouse->id)->get();
 
+        $month_utilisation = GreenhouseMetric::selectRaw("IFNULL(ROUND(SUM(`water_volume`)/1000,3),0)  as 'total_water_volume',
+        IFNULL(ROUND(SUM(`energy_unit`)*(COUNT(id)/60/60),2),0)  as 'total_energy_unit'")
+            ->where("greenhouse_id", $greenhouse->id)
+            ->whereRaw("DATE(created_at) >= DATE(DATE_SUB(NOW(), INTERVAL 1 MONTH))")
+            ->first();
 
         return response()->json([
             "temperature" => $greenhouse_metrics->pluck("avg_temperature"),
@@ -53,6 +58,8 @@ class GreenhouseNodeController extends Controller
             "soil_moisture" => $greenhouse_metrics->pluck("avg_soil_moisture"),
             "water_volume" => $greenhouse_metrics->pluck("total_water_volume"),
             "energy_unit" => $greenhouse_metrics->pluck("total_energy_unit"),
+            "month_water_volume" => $month_utilisation->total_water_volume,
+            "month_energy_unit" => $month_utilisation->total_energy_unit,
             "post_time" => $greenhouse_metrics->pluck("post_time"),
 //            "" => $greenhouse_metrics->pluck(""),
         ]);
