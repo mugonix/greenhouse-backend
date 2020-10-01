@@ -19,15 +19,20 @@ class EnvironmentConditionManager
                 return $q->whereNotNull('lower_limit')->whereNotNull('upper_limit');
             })->get();
 
+        \Log::info($limits);
+
 
         $exhaust_sensor = GreenhouseActuator::where("greenhouse_id", $greenhouseMetric->greenhouse_id)->where("actuator", "exhaust_fan")
             ->first();
+
+        \Log::info($exhaust_sensor);
+
 
         $isExhaustFanOnElsewhere = (is_null($exhaust_sensor)) ? '' : $exhaust_sensor->sensor;
 
         foreach ($limits as $limit) {
             $value = $greenhouseMetric->{$limit->sensor};
-
+            \Log::info($value);
             switch ($limit->sensor) {
                 case 'temperature':
                     if ($value > $limit->upper_limit) {
