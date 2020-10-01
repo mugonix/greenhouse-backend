@@ -126,7 +126,8 @@ class GreenhouseNodeController extends Controller
         } else {
             $updated = GreenhouseActuator::where("greenhouse_id", $greenhouse_id)
                 ->where("actuator", $actuator)
-                ->update(["state" => "OFF", "control_level" => GreenhouseActuator::CONDITION_LEVEL]);
+                ->update(["state" => "OFF", "control_level" => GreenhouseActuator::CONDITION_LEVEL,
+                    "sensor" => ""]);
         }
 
         if ($updated)
@@ -141,7 +142,8 @@ class GreenhouseNodeController extends Controller
 
         $updated2 = $greenhouse->greenhouse_actuators()
             ->where("control_level", GreenhouseActuator::CONDITION_LEVEL)
-            ->update(["state" => "OFF", "control_level" => GreenhouseActuator::DEFAULT_LEVEL]);
+            ->update(["state" => "OFF", "control_level" => GreenhouseActuator::DEFAULT_LEVEL,
+                "sensor" => ""]);
 
 //        if ($updated && $updated2)
         return response()->json(["status" => "ok"]);
