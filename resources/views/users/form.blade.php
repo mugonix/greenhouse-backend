@@ -22,7 +22,7 @@
             "class"=>"form-control ". ($errors->has("username")?"is-invalid":""),
             "required", "autocomplete"=>"username",(isset($user)?"disabled":"")]) !!}
 
-        <small class="form-text text-muted">Username must on contain characters and digits</small>
+        <small class="form-text">Username must on contain characters and digits</small>
         @error('username')
         <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>

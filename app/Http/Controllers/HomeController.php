@@ -47,7 +47,8 @@ class HomeController extends Controller
             'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', "unique:users,email," . auth()->id() . ",id"],
             'current_password' => ['nullable', 'string', 'min:8'],
-            'new_password' => ['nullable', 'string', 'min:8', "confirmed", "regex:/^.(?=.{3,})(?=.[a-zA-Z])(?=.[0-9])(?=.[\d\x])(?=.[!$#%]).$/"],
+            'new_password' => ['nullable', 'string', 'min:8', "confirmed", 'regex:/[a-z]/',
+                'regex:/[A-Z]/', 'regex:/[0-9]/', 'regex:/[@$!%*#?&]/'],
         ], [
             "new_password.regex" => "The password does not contain characters from at least three of the following five categories:
 English uppercase characters (A – Z), English lowercase characters (a – z), Digits (0 – 9), Non-alphanumeric (For example: !, $, #, or %)"
