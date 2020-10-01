@@ -54,6 +54,8 @@
                                                 "class"=>"form-control ". ($errors->has("password")?"is-invalid":""),
                                                 "required", "autocomplete"=>"new-password"]) !!}
 
+                                            <small class="form-text">The password must contain characters from at least three of the following five categories:<br/>
+                                                English uppercase characters (A – Z), English lowercase characters (a – z), Digits (0 – 9), Non-alphanumeric (For example: !, $, #, or %)</small>
                                             @error('password')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

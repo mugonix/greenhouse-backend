@@ -7,6 +7,7 @@ use App\Models\GreenhouseActuator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class GreenhouseController extends Controller
 {
@@ -26,7 +27,8 @@ class GreenhouseController extends Controller
     {
         $this->validate($request, [
             "user_id" => "required|exists:users,id",
-            "greenhouse_name" => "required|string|max:255"
+            "greenhouse_name" => ["required", "string", "max:255",
+                Rule::unique("greenhouses", "name")->where("owner_id", $request->get("user_id"))]
         ]);
 
         $code = strtoupper(Str::random(5));

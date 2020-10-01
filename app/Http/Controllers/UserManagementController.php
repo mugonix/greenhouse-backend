@@ -29,9 +29,13 @@ class UserManagementController extends Controller
             'first_names' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'username' => ['required', 'string', 'min:3', 'max:255', 'unique:users',"regex:/(^([a-zA-Z]+)(\d+)?$)/u"],
+            'password' => ['required', 'string', 'min:8', 'confirmed',"regex:/^.(?=.{3,})(?=.[a-zA-Z])(?=.[0-9])(?=.[\d\x])(?=.[!$#%]).$/"],
             "role_id" => "required",
+        ],[
+            "username.regex" => "The username must only contain letters and digits",
+            "password.regex" => "The password does not contain characters from at least three of the following five categories:
+English uppercase characters (A – Z), English lowercase characters (a – z), Digits (0 – 9), Non-alphanumeric (For example: !, $, #, or %)"
         ]);
 
         $data = request()->only(["role_id", 'first_names', 'surname', 'username', "email"]);
@@ -59,8 +63,11 @@ class UserManagementController extends Controller
             'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', "unique:users,email," . $user->id . ",id"],
 //            'username' => ['required', 'string', 'max:255', "unique:users,username," . $user->id . ",id"],
-            'password' => ['nullable', 'string', 'min:8'],
+            'password' => ['nullable', 'string', 'min:8',"regex:/^.(?=.{3,})(?=.[a-zA-Z])(?=.[0-9])(?=.[\d\x])(?=.[!$#%]).$/"],
             "role_id" => "required",
+        ],[
+            "password.regex" => "The password does not contain characters from at least three of the following five categories:
+English uppercase characters (A – Z), English lowercase characters (a – z), Digits (0 – 9), Non-alphanumeric (For example: !, $, #, or %)"
         ]);
 
         $data = request()->only("role_id", 'first_names', 'surname', "email");
