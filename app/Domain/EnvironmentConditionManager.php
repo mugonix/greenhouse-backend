@@ -16,7 +16,7 @@ class EnvironmentConditionManager
     {
         $limits = GreenhouseEnvironmentLimit::whereGreenhouseId($greenhouseMetric->greenhouse_id)
             ->where(function ($q) {
-                return $q->whereNotNull('lower_limit')->whereNotNull('upper_limit');
+                return $q->whereNotNull('lower_limit')->orWhereNotNull('upper_limit');
             })->get();
 
         \Log::info($limits);
