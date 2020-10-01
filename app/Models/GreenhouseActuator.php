@@ -10,6 +10,7 @@ class GreenhouseActuator extends BaseGreenhouseActuator
 		'greenhouse_id',
 		'actuator',
 		'state',
+        'sensor',
 		'control_level'
 	];
 
