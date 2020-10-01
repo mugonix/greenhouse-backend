@@ -32,17 +32,13 @@ class NodeSentMetrics implements ShouldBroadcast
      * @param GreenhouseMetric $greenhouse_metrics
      * @param  $greenhouse_actuator
      */
-    public function __construct(GreenhouseMetric $greenhouse_metrics, $greenhouse_actuator)
+    public function __construct(GreenhouseMetric $greenhouse_metrics, $greenhouse_actuator, $month_utilisation)
     {
         $this->greenhouse_metrics = $greenhouse_metrics;
         $this->post_time = $greenhouse_metrics->created_at->format("H:i");
         $this->greenhouse_actuator = $greenhouse_actuator;
 
-        $this->month_utilisation = GreenhouseMetric::selectRaw("IFNULL(ROUND(SUM(`water_volume`)/1000,3),0)  as 'total_water_volume',
-        IFNULL(ROUND(SUM(`energy_unit`)*(COUNT(id)/60/60),2),0)  as 'total_energy_unit'")
-            ->where("greenhouse_id", $greenhouse_metrics->greenhouse_id)
-            ->whereRaw("DATE(created_at) >= DATE(DATE_SUB(NOW(), INTERVAL 1 MONTH))")
-            ->first();
+        $this->month_utilisation = $month_utilisation;
     }
 
     /**

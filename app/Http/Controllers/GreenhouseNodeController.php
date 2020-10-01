@@ -98,7 +98,13 @@ class GreenhouseNodeController extends Controller
         $actuators = GreenhouseActuator::whereGreenhouseId($data["greenhouse_id"])
             ->select('actuator', 'state', 'control_level')->get();
 
-        broadcast(new NodeSentMetrics($greenhouse_metrics, $actuators->toArray()));
+        $monthly = GreenhouseMetric::selectRaw("IFNULL(ROUND(SUM(`water_volume`)/1000,3),0)  as 'total_water_volume',
+        IFNULL(ROUND(SUM(`energy_unit`)*(COUNT(id)/60/60),2),0)  as 'total_energy_unit'")
+            ->where("greenhouse_id", $greenhouse_metrics->greenhouse_id)
+            ->whereRaw("DATE(created_at) >= DATE(DATE_SUB(NOW(), INTERVAL 1 MONTH))")
+            ->first()->toArray();
+
+        broadcast(new NodeSentMetrics($greenhouse_metrics, $actuators->toArray(), $monthly));
 
         $actuator = $actuators->pluck("state", "actuator");
 
