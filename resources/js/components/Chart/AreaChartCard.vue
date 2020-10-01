@@ -168,6 +168,8 @@ export default {
             let xAxisLabelPos1 = this.xAxisLabelPos(label);
             if (xAxisLabelPos1 === -1) {
                 this.xAxis.push(label);
+                if (this.xAxis.length >= 15)
+                    this.xAxis.shift();
                 return (this.xAxis.length - 1);
             }
             return xAxisLabelPos1;
